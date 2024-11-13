@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Backlink Generator</title>
+    <meta property="og:image"content="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSfRuryAcZqvdFosqL86vZs70T-Eg5zARdRRA&usqp=CAU">
+    <meta name="description" content="Tools By Asmara Hancur !!!">
+    <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Ubuntu', sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(45deg, #3498db, #8e44ad);
+            color: #fff;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 30px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+            animation: fadeIn 1s ease-out;
+        }
+
+        form, .result {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 10px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+            margin-bottom: 20px;
+            animation: slideUp 0.5s ease-out;
+            width: 100%;
+            max-width: 500px;
+        }
+
+        input[type="text"], select, button {
+            font-family: 'Ubuntu', sans-serif;
+            padding: 12px;
+            font-size: 16px;
+            margin: 10px 0;
+            border: none;
+            border-radius: 5px;
+            background: rgba(255, 255, 255, 0.8);
+            color: #333;
+            transition: all 0.3s ease;
+            width: calc(100% - 24px);
+        }
+
+        input[type="text"]:focus, select:focus {
+            outline: none;
+            box-shadow: 0 0 0 2px #3498db;
+        }
+
+        button {
+            background: #2ecc71;
+            color: white;
+            cursor: pointer;
+            font-weight: bold;
+            transition: transform 0.1s;
+        }
+
+        button:hover {
+            background: #27ae60;
+            transform: scale(1.05);
+        }
+
+        .result div {
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
+        #resultLink {
+            margin-bottom: 10px;
+        }
+
+        .copy-button {
+            margin-top: 10px;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+    </style>
+    <script>
+        function generateLink() {
+            var link = document.getElementById("linkInput").value;
+            var mode = document.getElementById("modeSelect").value;
+            var result = '';
+
+            if (mode === 'reverse') {
+                result = link.split('').reverse().join('');
+            } else if (mode === 'restore') {
+                result = link.split('').reverse().join('');
+            }
+
+            document.getElementById("resultLink").value = result;
+        }
+
+        function copyToClipboard() {
+            var copyText = document.getElementById("resultLink");
+            copyText.select();
+            document.execCommand("copy");
+            alert("Link berhasil disalin!");
+        }
+    </script>
+</head>
+<body>
+
+<h1>Backlink Generator</h1>
+<form onsubmit="event.preventDefault(); generateLink();">
+    <input type="text" id="linkInput" placeholder="Masukkan URL (contoh: https://dpr.go.id)" required>
+    <select id="modeSelect">
+        <option value="reverse">Balikkan Link</option>
+        <option value="restore">Kembalikan Link Asli</option>
+    </select>
+    <button type="submit">Generate</button>
+</form>
+
+<div class="result">
+    <div>Hasil Link:</div>
+    <input type="text" id="resultLink" readonly>
+    <button onclick="copyToClipboard()" class="copy-button">Salin Link</button>
+</div>
+
+</body>
+</html>
