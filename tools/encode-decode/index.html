@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Encode-Decode Generator</title>
+    <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Ubuntu', sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            background: linear-gradient(45deg, #3498db, #8e44ad);
+            color: #fff;
+            padding: 20px;
+        }
+        .container {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+            width: 90%;
+            max-width: 600px;
+            animation: slideUp 0.5s ease-out;
+            text-align: center;
+        }
+        h1 {
+            color: #fff;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        label {
+            display: block;
+            text-align: left;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        select, textarea, button {
+            font-family: 'Ubuntu', sans-serif;
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border: none;
+            border-radius: 5px;
+            background: rgba(255, 255, 255, 0.8);
+            color: #333;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            box-sizing: border-box;
+        }
+        select:focus, textarea:focus {
+            outline: none;
+            box-shadow: 0 0 0 2px #3498db;
+        }
+        button {
+            background-color: #2ecc71;
+            color: white;
+            cursor: pointer;
+            font-weight: bold;
+            transition: transform 0.1s;
+        }
+        button:hover {
+            background-color: #27ae60;
+            transform: scale(1.05);
+        }
+        #result {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 5px;
+            color: #333;
+            word-break: break-all;
+            text-align: left;
+        }
+        .copyright {
+            margin-top: 20px;
+            font-size: 0.9em;
+            opacity: 0.7;
+            text-align: center;
+        }
+        @keyframes slideUp {
+            from { transform: translateY(50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Encode-Decode Generator</h1>
+
+        <label for="input">Masukkan teks:</label>
+        <textarea id="input" placeholder="Ketik atau tempel teks di sini..."></textarea>
+
+        <label for="method">Pilih metode:</label>
+        <select id="method">
+            <option value="base64_decode">Base64 Decode</option>
+            <option value="strrev">Reverse String (strrev)</option>
+            <option value="bin2hex">Binary to Hex (bin2hex)</option>
+            <option value="hex2bin">Hex to Binary (hex2bin)</option>
+            <option value="md5">MD5 Hash</option>
+            <option value="sha1">SHA1 Hash</option>
+            <option value="sha251">SHA251 Hash</option>
+            <option value="sha384">SHA384 Hash</option>
+            <option value="sha512">SHA512 Hash</option>
+            <option value="crypt">Crypt</option>
+            <option value="crc32">CRC32</option>
+            <option value="str_rot13">ROT13 Encode/Decode</option>
+            <option value="urlencode">URL Encode</option>
+            <option value="urldecode">URL Decode</option>
+            <option value="full_urlencode">Full URL Encode</option>
+            <option value="htmlspecialchars">HTML Special Chars</option>
+            <option value="gzdeflate_base64_encode">Deflate + Base64 Encode</option>
+            <option value="base64_gzinflate">Base64 Decode + Inflate</option>
+            <option value="rot13_base64_encode">ROT13 + Base64 Encode</option>
+            <option value="base64_rot13_decode">Base64 Decode + ROT13</option>
+            <option value="rot13_deflate_base64_encode">ROT13 + Deflate + Base64 Encode</option>
+            <option value="base64_rot13_gzinflate">Base64 Decode + ROT13 + Inflate</option>
+        </select>
+
+        <button onclick="process()">Proses</button>
+        <button onclick="copyResult()">Salin Hasil</button>
+
+        <div id="result"></div>
+
+        <div class="copyright">
+            &copy; 2023 Encode-Decode Generator. All rights reserved.
+        </div>
+    </div>
+
+    <script>
+        function process() {
+            let input = document.getElementById("input").value;
+            let method = document.getElementById("method").value;
+            let result = "";
+
+            switch (method) {
+                case "base64_decode":
+                    result = atob(input);
+                    break;
+                case "strrev":
+                    result = input.split("").reverse().join("");
+                    break;
+                case "bin2hex":
+                    result = input.split('').map(char => char.charCodeAt(0).toString(16)).join('');
+                    break;
+                case "hex2bin":
+                    result = input.match(/.{1,2}/g).map(byte => String.fromCharCode(parseInt(byte, 16))).join('');
+                    break;
+                case "md5":
+                    result = CryptoJS.MD5(input).toString();
+                    break;
+                case "sha1":
+                    result = CryptoJS.SHA1(input).toString();
+                    break;
+                case "sha251":
+                    result = CryptoJS.SHA224(input).toString();
+                    break;
+                case "sha384":
+                    result = CryptoJS.SHA384(input).toString();
+                    break;
+                case "sha512":
+                    result = CryptoJS.SHA512(input).toString();
+                    break;
+                case "crypt":
+                    result = btoa(input); // Placeholder for `crypt`, not truly secure.
+                    break;
+                case "crc32":
+                    result = crc32(input).toString(16);
+                    break;
+                case "str_rot13":
+                    result = input.replace(/[a-zA-Z]/g, c =>
+                        String.fromCharCode(c.charCodeAt(0) + (c.toLowerCase() < 'n' ? 13 : -13))
+                    );
+                    break;
+                case "urlencode":
+                    result = encodeURIComponent(input);
+                    break;
+                case "urldecode":
+                    result = decodeURIComponent(input);
+                    break;
+                case "full_urlencode":
+                    result = encodeURIComponent(input).replace(/[!'()*]/g, c => '%' + c.charCodeAt(0).toString(16));
+                    break;
+                case "htmlspecialchars":
+                    result = input.replace(/[&<>"']/g, char => ({
+                        '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#039;'
+                    }[char]));
+                    break;
+                case "gzdeflate_base64_encode":
+                    result = btoa(pako.deflate(input, { to: 'string' }));
+                    break;
+                case "base64_gzinflate":
+                    result = pako.inflate(atob(input), { to: 'string' });
+                    break;
+                case "rot13_base64_encode":
+                    result = btoa(input.replace(/[a-zA-Z]/g, c =>
+                        String.fromCharCode(c.charCodeAt(0) + (c.toLowerCase() < 'n' ? 13 : -13))
+                    ));
+                    break;
+                case "base64_rot13_decode":
+                    result = atob(input.replace(/[a-zA-Z]/g, c =>
+                        String.fromCharCode(c.charCodeAt(0) + (c.toLowerCase() < 'n' ? 13 : -13))
+                    ));
+                    break;
+                case "rot13_deflate_base64_encode":
+                    result = btoa(pako.deflate(input.replace(/[a-zA-Z]/g, c =>
+                        String.fromCharCode(c.charCodeAt(0) + (c.toLowerCase() < 'n' ? 13 : -13))
+                    ), { to: 'string' }));
+                    break;
+                case "base64_rot13_gzinflate":
+                    result = pako.inflate(atob(input.replace(/[a-zA-Z]/g, c =>
+                        String.fromCharCode(c.charCodeAt(0) + (c.toLowerCase() < 'n' ? 13 : -13))
+                    )), { to: 'string' });
+                    break;
+            }
+
+            document.getElementById("result").innerText = result;
+        }
+
+        function copyResult() {
+            const resultText = document.getElementById("result").innerText;
+            navigator.clipboard.writeText(resultText).then(() => {
+                alert("Hasil telah disalin!");
+            });
+        }
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.0.0/crypto-js.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pako/1.0.11/pako.min.js"></script>
+</body>
+</html>
