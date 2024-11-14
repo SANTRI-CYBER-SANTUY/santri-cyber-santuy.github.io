@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PHP Parameter Script Modifier</title>
+    <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Ubuntu', sans-serif;
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+            background: linear-gradient(45deg, #3498db, #8e44ad);
+            color: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .container {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+            width: 90%;
+            max-width: 800px;
+            animation: slideUp 0.5s ease-out;
+            text-align: center;
+        }
+        h1 {
+            color: #fff;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 10px;
+        }
+        .description {
+            margin-bottom: 20px;
+            font-size: 16px;
+        }
+        textarea, input[type="text"] {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border: none;
+            border-radius: 5px;
+            background: rgba(255, 255, 255, 0.8);
+            color: #333;
+            font-family: 'Ubuntu', monospace;
+            font-size: 14px;
+            box-sizing: border-box;
+        }
+        textarea {
+            height: 200px;
+            resize: vertical;
+        }
+        textarea:focus, input[type="text"]:focus {
+            outline: none;
+            box-shadow: 0 0 0 2px #3498db;
+        }
+        button {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border: none;
+            border-radius: 5px;
+            background-color: #2ecc71;
+            color: white;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+        button:hover {
+            background-color: #27ae60;
+            transform: scale(1.05);
+        }
+        button:disabled {
+            background-color: #bdc3c7;
+            cursor: not-allowed;
+        }
+        #result {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 5px;
+            color: #333;
+            font-family: monospace;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+            text-align: left;
+        }
+        #copyBtn {
+            background-color: #3498db;
+        }
+        #copyBtn:hover {
+            background-color: #2980b9;
+        }
+        #accessInfo {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 5px;
+        }
+        label {
+            display: block;
+            margin-top: 15px;
+            font-size: 14px;
+            word-wrap: break-word;
+        }
+        .copyright {
+            margin-top: 20px;
+            font-size: 0.9em;
+            opacity: 0.7;
+        }
+        @keyframes slideUp {
+            from { transform: translateY(50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>PHP Parameter Script Modifier</h1>
+        <p class="description">Paste your PHP script, input the parameter name and value, and generate the modified script.</p>
+
+        <textarea id="phpScript" placeholder="Paste your PHP script here..."></textarea>
+        <input type="text" id="paramName" placeholder="Enter parameter name (e.g., oke)" />
+        <input type="text" id="paramValue" placeholder="Enter parameter value (e.g., 1337)" />
+
+        <button onclick="modifyScript()">Generate Modified Script</button>
+
+        <label for="result" id="resultLabel" style="display:none;">Modified Script:</label>
+        <div id="result"></div>
+        <button id="copyBtn" onclick="copyToClipboard()" disabled>Copy Result</button>
+
+        <div id="accessInfo" style="display:none;">
+            <p>To access the script, use the following URL:</p>
+            <p><strong>yourfile.php?ParameterName=ParameterValue</strong></p>
+            <p>Example: <strong id="exampleUrl"></strong></p>
+        </div>
+
+        <div class="copyright">
+            &copy; 2023 PHP Script Modifier Tool. All rights reserved.
+        </div>
+    </div>
+
+    <script>
+        // Your existing JavaScript code here (unchanged)
+        function modifyScript() {
+            var scriptContent = document.getElementById("phpScript").value;
+            var paramName = document.getElementById("paramName").value;
+            var paramValue = document.getElementById("paramValue").value;
+
+            if (!scriptContent || !paramName || !paramValue) {
+                alert("Please fill in all fields.");
+                return;
+            }
+
+            var modifiedScript = `<?php\n// Cek apakah parameter '${paramName}' ada dan nilainya adalah '${paramValue}'\nif (isset($_GET['${paramName}']) && $_GET['${paramName}'] == '${paramValue}') {\n    // Jika parameter cocok, jalankan skrip asli\n${scriptContent}\n} else {\n    // Jika parameter tidak cocok, tampilkan halaman kosong atau pesan lain\n    exit;\n}\n?>`;
+
+            document.getElementById("result").textContent = modifiedScript;
+            document.getElementById("accessInfo").style.display = "block";
+            document.getElementById("exampleUrl").textContent = "yourfile.php?" + paramName + "=" + paramValue;
+            document.getElementById("copyBtn").disabled = false;
+            document.getElementById("resultLabel").style.display = "block";
+        }
+
+        function copyToClipboard() {
+            var resultText = document.getElementById("result").textContent;
+            navigator.clipboard.writeText(resultText).then(function() {
+                alert("Result copied to clipboard!");
+            }).catch(function(err) {
+                alert("Failed to copy text: " + err);
+            });
+        }
+    </script>
+</body>
+</html>
