@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>URL to Base64 Encoder/Decoder</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400;700&display=swap" rel="stylesheet">
+    
+    <style>
+        body {
+            font-family: 'Ubuntu', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            background: linear-gradient(45deg, #3498db, #8e44ad);
+            color: #fff;
+            padding: 20px;
+        }
+        .container {
+            text-align: center;
+            padding: 30px;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+            max-width: 400px;
+            width: 100%;
+            animation: slideUp 0.5s ease-out;
+        }
+        h2 {
+            margin: 0 0 20px;
+            font-weight: 700;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+        label {
+            display: block;
+            text-align: left;
+            margin-top: 15px;
+            margin-bottom: 5px;
+            font-weight: 500;
+        }
+        input, textarea, button, select {
+            width: 100%;
+            padding: 12px;
+            font-size: 16px;
+            font-family: 'Ubuntu', sans-serif;
+            border-radius: 5px;
+            border: none;
+            background: rgba(255, 255, 255, 0.8);
+            color: #333;
+            transition: all 0.3s ease;
+            box-sizing: border-box;
+        }
+        input:focus, textarea:focus, select:focus {
+            outline: none;
+            box-shadow: 0 0 0 2px #3498db;
+        }
+        button {
+            background-color: #2ecc71;
+            color: white;
+            cursor: pointer;
+            font-weight: bold;
+            transition: transform 0.1s;
+            margin-top: 15px;
+        }
+        button:hover {
+            background-color: #27ae60;
+            transform: scale(1.05);
+        }
+        textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+        .copyright {
+            margin-top: 20px;
+            font-size: 0.9em;
+            opacity: 0.7;
+        }
+        @keyframes slideUp {
+            from { transform: translateY(50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>URL to Base64 Encoder/Decoder</h2>
+        
+        <label for="operation">Pilih operasi:</label>
+        <select id="operation" onchange="toggleOperation()">
+            <option value="encode">Encode URL to Base64</option>
+            <option value="decode">Decode Base64 to URL</option>
+        </select>
+
+        <label for="inputField" id="inputLabel">Masukkan URL:</label>
+        <input type="text" id="inputField" placeholder="Masukkan URL atau Base64 di sini">
+        
+        <button onclick="process()">Proses</button>
+        
+        <label for="result">Hasil:</label>
+        <textarea id="result" placeholder="Hasil akan muncul di sini" readonly></textarea>
+        
+        <button onclick="copyResult()">Salin Hasil</button>
+
+        <div class="copyright">
+            &copy; 2023 URL to Base64 Encoder/Decoder. All rights reserved.
+        </div>
+    </div>
+
+    <script>
+        function toggleOperation() {
+            const operation = document.getElementById('operation').value;
+            const inputField = document.getElementById('inputField');
+            const inputLabel = document.getElementById('inputLabel');
+            if (operation === 'encode') {
+                inputField.placeholder = "Masukkan URL di sini";
+                inputLabel.textContent = "Masukkan URL:";
+            } else {
+                inputField.placeholder = "Masukkan Base64 di sini";
+                inputLabel.textContent = "Masukkan Base64:";
+            }
+        }
+
+        function process() {
+            const operation = document.getElementById('operation').value;
+            const input = document.getElementById('inputField').value;
+            let result = '';
+
+            if (operation === 'encode') {
+                if (input) {
+                    result = btoa(input);
+                } else {
+                    alert("Masukkan URL yang valid untuk di-encode.");
+                }
+            } else if (operation === 'decode') {
+                try {
+                    result = atob(input);
+                } catch (e) {
+                    alert("Masukkan Base64 yang valid untuk di-decode.");
+                }
+            }
+            document.getElementById('result').value = result;
+        }
+
+        function copyResult() {
+            const resultField = document.getElementById('result');
+            resultField.select();
+            resultField.setSelectionRange(0, 99999); // Untuk mendukung perangkat mobile
+            document.execCommand("copy");
+            alert("Hasil disalin ke clipboard!");
+        }
+    </script>
+</body>
+</html>
