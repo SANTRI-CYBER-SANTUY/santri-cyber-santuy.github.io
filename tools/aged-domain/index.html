@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Domain Age Checker</title>
+    <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Ubuntu', sans-serif;
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+            background: linear-gradient(45deg, #3498db, #8e44ad);
+            color: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .container {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+            width: 90%;
+            max-width: 600px;
+            text-align: center;
+            animation: slideUp 0.5s ease-out;
+        }
+        h1 {
+            color: #fff;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 10px;
+        }
+        p {
+            margin-bottom: 20px;
+        }
+        input[type="text"] {
+            width: 100%;
+            padding: 12px;
+            font-size: 16px;
+            margin-top: 10px;
+            border: none;
+            border-radius: 5px;
+            background: rgba(255, 255, 255, 0.8);
+            color: #333;
+            box-sizing: border-box;
+        }
+        input[type="text"]:focus {
+            outline: none;
+            box-shadow: 0 0 0 2px #3498db;
+        }
+        button {
+            width: 100%;
+            padding: 12px;
+            font-size: 16px;
+            background-color: #2ecc71;
+            color: white;
+            border: none;
+            cursor: pointer;
+            margin-top: 20px;
+            border-radius: 5px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+        button:hover {
+            background-color: #27ae60;
+            transform: scale(1.05);
+        }
+        #result {
+            margin-top: 20px;
+            font-size: 18px;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            border-radius: 5px;
+            word-break: break-all;
+        }
+        .copyright {
+            margin-top: 20px;
+            font-size: 0.9em;
+            opacity: 0.7;
+        }
+        @keyframes slideUp {
+            from { transform: translateY(50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        a {
+            color: #2ecc71;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Domain Age Checker</h1>
+        <p>Enter domain to check its age via WhatsMyDNS.</p>
+        
+        <input type="text" id="domainInput" placeholder="Enter domain name (e.g., dpr.go.id)">
+        <button onclick="checkDomainAge()">Check Domain Age</button>
+
+        <div id="result"></div>
+
+        <div class="copyright">
+            &copy; 2023 Domain Age Checker. All rights reserved.
+        </div>
+    </div>
+
+    <script>
+        function checkDomainAge() {
+            var domain = document.getElementById('domainInput').value.trim();
+
+            if (domain) {
+                var resultDiv = document.getElementById('result');
+                resultDiv.innerHTML = `Checking age for domain: <strong>${domain}</strong>...`;
+
+                var url = 'https://www.whatsmydns.net/domain-age?q=' + domain;
+                resultDiv.innerHTML += `<br><a href="${url}" target="_blank">Click here to check the age of ${domain}</a>`;
+            } else {
+                alert("Please enter a domain name.");
+            }
+        }
+    </script>
+</body>
+</html>
