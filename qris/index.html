@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AsmaraHancur QRIS Payment</title>
+    <meta property="og:image"content="https://asmarahancur.my.id/images/pay.png">
+    <meta name="description" content="Bayar Meggunakan QRIS Untuk Semua Bank !!!">
+    <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Ubuntu', sans-serif;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            background: linear-gradient(45deg, #3498db, #8e44ad);
+            color: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .container {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+            width: 90%;
+            max-width: 400px;
+            text-align: center;
+            animation: slideUp 0.5s ease-out;
+        }
+        h1 {
+            color: #fff;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        .qris-image {
+            width: 100%;
+            max-width: 300px;
+            height: auto;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease;
+        }
+        .qris-image:hover {
+            transform: scale(1.05);
+        }
+        .info {
+            margin-top: 30px;
+            font-size: 18px;
+            line-height: 1.6;
+        }
+        .button {
+            display: inline-block;
+            padding: 12px 24px;
+            margin-top: 20px;
+            background-color: #2ecc71;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+        .button:hover {
+            background-color: #27ae60;
+            transform: scale(1.05);
+        }
+        .copyright {
+            margin-top: 30px;
+            font-size: 0.9em;
+            opacity: 0.7;
+        }
+        @keyframes slideUp {
+            from { transform: translateY(50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>AsmaraHancur QRIS Payment</h1>
+        <img src="https://javastore.my.id/img/QRIS.png" alt="QRIS Code" class="qris-image">
+        <div class="info">
+            <p>Scan the QR code above to make your payment</p>
+            <p>Supported by all QRIS-compatible apps</p>
+        </div>
+        <a href="https://wa.me/6288215393438" class="button">Confirm Payment</a>
+        <div class="copyright">
+            &copy; 2023 AsmaraHancur. All rights reserved.
+        </div>
+    </div>
+</body>
+</html>
