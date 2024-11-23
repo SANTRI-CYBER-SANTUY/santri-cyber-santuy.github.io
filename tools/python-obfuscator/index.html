@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Python Obfuscator Generator</title>
+    <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Ubuntu', sans-serif;
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+            background: linear-gradient(45deg, #3498db, #8e44ad);
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .container {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+            width: 90%;
+            max-width: 800px;
+            margin: 20px auto;
+        }
+        h1, h2 {
+            text-align: center;
+            color: #fff;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+        textarea {
+            width: 100%;
+            height: 200px;
+            margin: 10px 0;
+            padding: 10px;
+            font-family: 'Ubuntu Mono', monospace;
+            font-size: 14px;
+            border: none;
+            border-radius: 5px;
+            background: rgba(255, 255, 255, 0.8);
+            color: #333;
+            resize: vertical;
+        }
+        button {
+            background-color: #2ecc71;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: all 0.3s ease;
+            font-weight: bold;
+        }
+        button:hover {
+            background-color: #27ae60;
+            transform: scale(1.05);
+        }
+        #copyButton {
+            background-color: #db3477;
+        }
+        #copyButton:hover {
+            background-color: #db3477;
+        }
+        pre {
+            background: rgba(30, 30, 47, 0.8);
+            color: #fff;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+            margin-top: 20px;
+            text-align: left;
+            font-family: 'Ubuntu Mono', monospace;
+        }
+        .hidden {
+            display: none;
+        }
+        .description {
+            font-size: 16px;
+            color: #ecf0f1;
+            margin: 20px 0;
+            text-align: justify;
+            line-height: 1.6;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        .fade-in {
+            animation: fadeIn 1s ease-out;
+        }
+.copyright {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 0.9em;
+    opacity: 0.7;
+}
+    </style>
+</head>
+<body>
+    <div class="container fade-in">
+        <h1>Python Obfuscator Generator</h1>
+        <p class="description">
+            Obfuscator Python adalah alat yang dirancang untuk mengamankan dan melindungi kode Python menggunakan kebingungan, metode ini mempersulit peretas untuk mendapatkan akses ke kode sumber sensitif Anda. 
+            Obfuscator Python ini sangat canggih, menggunakan kebingungan multi-lapisan sehingga secara efektif mustahil untuk memulihkan kode sumber asli. 
+            Alat ini berguna bagi orang yang ingin melindungi hak kekayaan intelektualnya, atau menjalankan layanan Python dengan kode sumber sensitif.
+        </p>
+        <textarea id="inputCode" placeholder="Masukkan Kode Python Kamu Di Sini Dek..."></textarea>
+        <br>
+        <button onclick="obfuscateCode()">Gas Obfuscate</button>
+        <h2>Hasil Obfuscasi:</h2>
+        <pre id="outputCode">Hasil Akan Ditampilkan Di Sini...</pre>
+        <button id="copyButton" class="hidden" onclick="copyToClipboard()">Copy To Clipboard</button>
+<div class="copyright">
+    Copyright &copy; 2024 Python Obfuscator By AsmaraHancur. All rights reserved.
+</div>
+    </div>
+    <script>
+        // Your existing JavaScript code remains unchanged
+        function obfuscateCode() {
+            const inputCode = document.getElementById("inputCode").value;
+
+            if (!inputCode.trim()) {
+                alert("Harap Masukkan Kode Python Terlebih Dahulu!");
+                return;
+            }
+
+            // Kompres dan obfuscasi kode Python
+            const compressedCode = btoa(
+                Array.from(new TextEncoder().encode(inputCode))
+                    .reverse()
+                    .join("")
+            );
+            const obfuscatedCode = `
+# Python Obfuscation By AsmaraHancur.my.id
+_ = lambda __ : __import__('zlib').decompress(__import__('base64').b64decode(__[::-1]));exec((_)(b'${compressedCode}'))
+`;
+
+            // Menampilkan hasil
+            const outputCodeElement = document.getElementById("outputCode");
+            outputCodeElement.textContent = obfuscatedCode;
+
+            // Tampilkan tombol copy
+            document.getElementById("copyButton").classList.remove("hidden");
+        }
+
+        function copyToClipboard() {
+            const outputCode = document.getElementById("outputCode").textContent;
+
+            // Membuat elemen sementara untuk copy ke clipboard
+            const tempInput = document.createElement("textarea");
+            tempInput.value = outputCode;
+            document.body.appendChild(tempInput);
+            tempInput.select();
+            document.execCommand("copy");
+            document.body.removeChild(tempInput);
+
+            alert("Kode Berhasil Disalin Ke Clipboard Dek!");
+        }
+    </script>
+</body>
+</html>
