@@ -9,50 +9,57 @@
         body {
             font-family: 'Ubuntu', sans-serif;
             margin: 0;
-            padding: 20px;
+            padding: 0;
             min-height: 100vh;
             background: linear-gradient(45deg, #3498db, #8e44ad);
             color: #fff;
             display: flex;
             flex-direction: column;
             align-items: center;
+            justify-content: center;
         }
         .container {
             background: rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(10px);
-            border-radius: 10px;
+            border-radius: 20px;
             padding: 30px;
             box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
             width: 90%;
-            max-width: 800px;
+            max-width: 600px;
             margin: 20px auto;
+            box-sizing: border-box;
+            animation: fadeIn 1s ease-out;
         }
-        h1, h2 {
+        h1 {
             text-align: center;
             color: #fff;
             text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+            font-size: 28px;
+            margin-bottom: 20px;
         }
         .description {
             text-align: justify;
-            margin-bottom: 20px;
+            margin-bottom: 25px;
             line-height: 1.6;
-        }
-        .input-container {
-            display: flex;
-            justify-content: center;
-            margin-bottom: 20px;
+            font-size: 16px;
         }
         textarea {
             width: 100%;
-            height: 200px;
-            padding: 10px;
+            height: 180px;
+            padding: 15px;
             font-family: 'Ubuntu Mono', monospace;
             font-size: 14px;
             border: none;
-            border-radius: 5px;
+            border-radius: 10px;
             background: rgba(255, 255, 255, 0.8);
             color: #333;
             resize: vertical;
+            box-sizing: border-box;
+            transition: all 0.3s ease;
+        }
+        textarea:focus {
+            outline: none;
+            box-shadow: 0 0 0 2px #3498db;
         }
         button {
             background-color: #2ecc71;
@@ -60,11 +67,12 @@
             border: none;
             padding: 12px 24px;
             font-size: 16px;
-            border-radius: 5px;
+            border-radius: 10px;
             cursor: pointer;
-            margin-top: 10px;
+            margin-top: 15px;
             transition: all 0.3s ease;
             font-weight: bold;
+            width: 100%;
         }
         button:hover {
             background-color: #27ae60;
@@ -79,35 +87,48 @@
         pre {
             background: rgba(30, 30, 47, 0.8);
             color: #fff;
-            padding: 15px;
-            border-radius: 5px;
+            padding: 20px;
+            border-radius: 10px;
             text-align: left;
             white-space: pre-wrap;
             word-break: break-word;
             overflow-x: auto;
-            margin-top: 20px;
+            margin-top: 25px;
             font-family: 'Ubuntu Mono', monospace;
+            font-size: 14px;
         }
         .hidden {
             display: none;
         }
         .copyright {
             text-align: center;
-            margin-top: 20px;
+            margin-top: 25px;
             font-size: 0.9em;
             opacity: 0.7;
         }
         @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
-        .fade-in {
-            animation: fadeIn 1s ease-out;
+        @media (max-width: 600px) {
+            .container {
+                width: 95%;
+                padding: 20px;
+            }
+            h1 {
+                font-size: 24px;
+            }
+            .description {
+                font-size: 14px;
+            }
+            textarea, pre {
+                font-size: 13px;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="container fade-in">
+    <div class="container">
         <h1>JavaScript Obfuscator Generator</h1>
         <p class="description">
             Obfuscator Javascript adalah alat yang dirancang untuk melindungi dan mengamankan kode Javascript sensitif. 
@@ -116,16 +137,13 @@
             Obfuscator ini berguna bagi orang-orang yang ingin mengamankan aplikasi Javascriptnya, terutama pada website, 
             untuk mempersulit rekayasa balik cara kerja website.
         </p>
-        <div class="input-container">
-            <textarea id="inputCode" placeholder="Masukkan Kode JavaScript Kamu Di Sini Dek..."></textarea>
-        </div>
-        <button onclick="obfuscateCode()">Gas Obfuscate</button>
-        <h2>Hasil Obfuscasi:</h2>
-        <pre id="outputCode">Hasil Akan Ditampilkan Di Sini Dek...</pre>
-        <button id="copyButton" class="hidden" onclick="copyToClipboard()">Copy To Clipboard</button>
+        <textarea id="inputCode" placeholder="Masukkan kode JavaScript Kamu Di Sini Dek..."></textarea>
+        <button onclick="obfuscateCode()">Obfuscate</button>
+        <pre id="outputCode">Hasil akan ditampilkan di sini...</pre>
+        <button id="copyButton" class="hidden" onclick="copyToClipboard()">Copy to Clipboard</button>
         
         <div class="copyright">
-            Copyright &copy; 2024 JavaScript Obfuscator By AsmaraHancur. All rights reserved.
+            Copyright &copy; 2024 JavaScript Obfuscator by JavaStore. All rights reserved.
         </div>
     </div>
 
@@ -134,7 +152,7 @@
             const inputCode = document.getElementById("inputCode").value.trim();
 
             if (!inputCode) {
-                alert("Harap Masukkan Kode JavaScript Terlebih Dahulu Dek!");
+                alert("Harap masukkan kode JavaScript terlebih dahulu!");
                 return;
             }
 
@@ -166,7 +184,7 @@
             document.execCommand("copy");
             document.body.removeChild(tempInput);
 
-            alert("Kode Berhasil Disalin Ke Clipboard Dek!");
+            alert("Kode berhasil disalin ke clipboard!");
         }
     </script>
 </body>
