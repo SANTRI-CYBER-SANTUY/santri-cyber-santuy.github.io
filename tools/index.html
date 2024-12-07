@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ASMARA 〄 TOOLS</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+         :root {
+            --bg-color: #ffffff;
+            --text-color: #333333;
+            --header-bg: #333333;
+            --header-text: #ffffff;
+            --menu-bg: #f0f0f0;
+            --accent-color: #ff009d;
+        }
+
+        body {
+            font-family: 'Ubuntu', sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            transition: background-color 0.3s, color 0.3s;
+        }
+        .header {
+            background-color: var(--header-bg);
+            color: var(--header-text);
+            padding: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+        }
+        .header-icons a, .theme-toggle {
+            color: var(--header-text);
+            margin-left: 10px;
+            text-decoration: none;
+            font-size: 20px;
+            cursor: pointer;
+        }
+        .container {
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+            position: relative;
+        }
+        .menu {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 250px;
+            background-color: var(--menu-bg);
+            padding: 20px;
+            transition: transform 0.3s ease-in-out, background-color 0.3s;
+            transform: translateX(-100%);
+            z-index: 1000;
+        }
+        .menu.visible {
+            transform: translateX(0);
+        }
+        .content {
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            flex: 1;
+        }
+        .menu-toggle {
+            background-color: var(--header-bg);
+            color: var(--header-text);
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+        }
+        .submenu {
+            display: none;
+            padding-left: 20px;
+        }
+        .menu-item {
+            cursor: pointer;
+            padding: 5px 0;
+        }
+        .menu-item:hover {
+            text-decoration: underline;
+        }
+        .menu-item i {
+            margin-right: 10px;
+            width: 20px;
+        }
+        .footer {
+            background-color: var(--header-bg);
+            color: var(--header-text);
+            padding: 10px;
+            text-align: center;
+        }
+        #about, #donate, #live-chat {
+            margin-bottom: 20px;
+            max-width: 600px;
+            width: 100%;
+        }
+
+        /* Dark theme */
+        body.dark-theme {
+            --bg-color: #333333;
+            --text-color: #ffffff;
+            --header-bg: #1a1a1a;
+            --header-text: #ffffff;
+            --menu-bg: #4a4a4a;
+        }
+        .section {
+            margin-bottom: 40px;
+            max-width: 600px;
+            width: 100%;
+            background-color: var(--bg-color);
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            position: relative;
+        }
+        .section h2 {
+            color: var(--accent-color);
+            border-bottom: 2px solid var(--accent-color);
+            padding-bottom: 10px;
+            margin-top: 0;
+        }
+        .section::before {
+            content: '';
+            position: absolute;
+            top: -10px;
+            left: 20px;
+            width: 0;
+            height: 0;
+            border-left: 10px solid transparent;
+            border-right: 10px solid transparent;
+            border-bottom: 10px solid var(--bg-color);
+        }
+        button {
+            background-color: var(--accent-color);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+          /* New styles for the circular image */
+    .circular-bg {
+        width: 200px;
+        height: 200px;
+        border-radius: 50%;
+        background-color: var(--bg-color);
+        position: relative;
+        margin: 0 auto 20px;
+        overflow: hidden;
+        box-shadow: 0 0 20px rgba(0,0,0,0.1);
+    }
+
+    .profile-img {
+        width: 180px;
+        height: 180px;
+        border-radius: 50%;
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        cursor: pointer;
+        animation: float 3s ease-in-out infinite;
+    }
+
+    @keyframes float {
+        0% { transform: translateY(0px); }
+        50% { transform: translateY(-10px); }
+        100% { transform: translateY(0px); }
+    }
+
+    .circular-bg::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: radial-gradient(circle, rgba(255,255,255,0) 0%, rgba(255,255,255,0.4) 100%);
+        animation: pulse 4s linear infinite;
+    }
+
+    @keyframes pulse {
+        0% { transform: scale(1); opacity: 1; }
+        50% { transform: scale(1.1); opacity: 0.8; }
+        100% { transform: scale(1); opacity: 1; }
+    }
+
+    /* Styles for the modal */
+    .modal {
+        display: none;
+        position: fixed;
+        z-index: 1001;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgba(0,0,0,0.4);
+    }
+
+    .modal-content {
+        background-color: var(--bg-color);
+        margin: 15% auto;
+        padding: 20px;
+        border: 1px solid #888;
+        width: 300px;
+        text-align: center;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    }
+
+    .close {
+        color: #aaa;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+        cursor: pointer;
+    }
+
+    .close:hover,
+    .close:focus {
+        color: #000;
+        text-decoration: none;
+        cursor: pointer;
+    }
+     /* New styles for the larger circular image */
+     .circular-container {
+        width: 90vw;
+        height: 90vw;
+        max-width: 600px;
+        max-height: 600px;
+        position: relative;
+        margin: 20px auto;
+    }
+    .circular-bg {
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        background-color: var(--bg-color);
+        position: relative;
+        overflow: hidden;
+        box-shadow: 0 0 20px rgba(0,0,0,0.1);
+    }
+    .profile-img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 50%;
+        position: absolute;
+        top: 0;
+        left: 0;
+        cursor: pointer;
+        animation: float 3s ease-in-out infinite;
+    }
+    .rainbow-border {
+        position: absolute;
+        top: -10px;
+        left: -10px;
+        right: -10px;
+        bottom: -10px;
+        border-radius: 50%;
+        background: linear-gradient(45deg, red, orange, yellow, green, blue, indigo, violet);
+        animation: spin 10s linear infinite;
+        z-index: -1;
+    }
+    @keyframes spin {
+        100% { transform: rotate(360deg); }
+    }   
+    .info-container {
+        display: flex;
+        justify-content: space-around;
+        width: 100%;
+        max-width: 600px;
+        margin: 20px 0;
+        background-color: var(--bg-color);
+        border-radius: 8px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        padding: 15px;
+    }
+
+    .info-item {
+        text-align: center;
+    }
+
+    .info-item h3 {
+        margin: 0;
+        font-size: 14px;
+        color: var(--text-color);
+    }
+
+    .info-item p {
+        margin: 5px 0 0;
+        font-size: 18px;
+        font-weight: bold;
+        color: var(--accent-color);
+    }
+
+    </style>
+</head>
+<body>
+    <div class="header">
+        <button class="menu-toggle" onclick="toggleMenu()">☰</button>
+        <div class="logo">ASMARA 〄 TOOLS</div>
+        <div class="header-icons">
+            <a href="https://t.me" title="Telegram"><i class="fab fa-telegram"></i></a>
+            <a href="https://instagram.com" title="Instagram"><i class="fab fa-instagram"></i></a>
+            <span class="theme-toggle" onclick="toggleTheme()" title="Toggle Theme">
+                <i class="fas fa-adjust"></i>
+            </span>
+        </div>
+    </div>
+    
+    <div class="container">
+        <div class="menu" id="menu">
+            <div class="menu-item" onclick="toggleSubmenu('checker')">
+                <i class="fas fa-check-circle"></i>Checker
+            </div>
+            <div class="submenu" id="checker-submenu">
+                <div class="menu-item"><i class="fas fa-caret-right"></i>Checker 1</div>
+                <div class="menu-item"><i class="fas fa-caret-right"></i>Checker 2</div>
+                <div class="menu-item"><i class="fas fa-caret-right"></i>Checker 3</div>
+            </div>
+            
+            <div class="menu-item" onclick="toggleSubmenu('programmer')">
+                <i class="fas fa-code"></i>Programmer
+            </div>
+            <div class="submenu" id="programmer-submenu">
+                <div class="menu-item"><i class="fas fa-caret-right"></i>Programmer 1</div>
+                <div class="menu-item"><i class="fas fa-caret-right"></i>Programmer 2</div>
+                <div class="menu-item"><i class="fas fa-caret-right"></i>Programmer 3</div>
+            </div>
+            
+            <div class="menu-item" onclick="toggleSubmenu('generator')">
+                <i class="fas fa-cog"></i>Generator
+            </div>
+            <div class="submenu" id="generator-submenu">
+                <div class="menu-item"><i class="fas fa-caret-right"></i>Generator 1</div>
+                <div class="menu-item"><i class="fas fa-caret-right"></i>Generator 2</div>
+                <div class="menu-item"><i class="fas fa-caret-right"></i>Generator 3</div>
+            </div>
+            
+            <div class="menu-item" onclick="toggleSubmenu('encoder')">
+                <i class="fas fa-lock"></i>Encoder
+            </div>
+            <div class="submenu" id="encoder-submenu">
+                <div class="menu-item"><i class="fas fa-caret-right"></i>Encoder 1</div>
+                <div class="menu-item"><i class="fas fa-caret-right"></i>Encoder 2</div>
+                <div class="menu-item"><i class="fas fa-caret-right"></i>Encoder 3</div>
+            </div>
+            
+            <div class="menu-item" onclick="toggleSubmenu('decoder')">
+                <i class="fas fa-unlock"></i>Decoder
+            </div>
+            <div class="submenu" id="decoder-submenu">
+                <div class="menu-item"><i class="fas fa-caret-right"></i>Decoder 1</div>
+                <div class="menu-item"><i class="fas fa-caret-right"></i>Decoder 2</div>
+                <div class="menu-item"><i class="fas fa-caret-right"></i>Decoder 3</div>
+            </div>
+            
+            <div class="menu-item">
+                <i class="fas fa-ellipsis-h"></i>Optional Menu
+            </div>
+        </div>
+        
+     
+        <div class="content">
+            <div class="circular-container">
+                <div class="rainbow-border"></div>
+                <div class="circular-bg">
+                    <img src="https://c.top4top.io/p_2356m48n40.jpg" alt="Profile" class="profile-img" onclick="showMessage()">
+                </div>
+            </div>
+    <script>
+        // Fetch IP address using an external API
+        fetch('https://api.ipify.org?format=json')
+            .then(response => response.json())
+            .then(data => {
+                // Display IP address in a single line
+                document.getElementById('ip-address').textContent = data.ip;
+            })
+            .catch(error => {
+                console.error('Error fetching IP:', error);
+                document.getElementById('ip-address').textContent = 'Unable to fetch IP (Tidak dapat mengambil IP)';
+            });
+    </script>
+     <div class="info-container">
+        <div class="info-item">
+            <h3>Your IP Address:</h3>
+            <p id="ip-address">Loading...</p>
+        </div>
+        <div class="info-item">
+            <h3>Total Visitor:</h3>
+            <p id="total-visitor">1,337</p>
+        </div>
+        <div class="info-item">
+            <h3>Total Tools:</h3>
+            <p id="total-tools">44</p>
+        </div>
+    </div>
+
+        
+            <div class="section" id="about">
+                <h2>About This Tools</h2>
+                <p>Situs ini adalah pusat berbagai tools online yang dirancang untuk memudahkan kebutuhan Anda. <b>ASMARA TOOLS</b> menyediakan berbagai macam tools online untuk kebutuhan Anda, mulai dari pengecekan website hingga alat pengembangan. Semua tools dirancang untuk mudah digunakan dan efisien.
+                    <br><i>✨Jelajahi menu yang tersedia dan temukan solusi praktis hanya di <b>ASMARA TOOLS!</b></i></p>
+            </div>
+        
+    <div class="section" id="donate">
+        <h2>Dukungan</h2>
+        <p>Bantu kami terus mengembangkan tools ini dengan donasi Anda. Dukungan Anda sangat berarti untuk meningkatkan kualitas dan layanan kami.</p>
+        <button onclick="window.location.href='https://saweria.co/AsmaraHancur'">Saweria</button>
+        <button onclick="window.location.href='https://asmarahancur.my.id/qris'">QRIS</button>
+        <p><i><b>🙏Terima kasih atas dukungan Anda!</b></i></p>
+        <style>
+            button {
+                padding: 10px 20px;
+                font-size: 16px;
+                margin: 5px;
+                background-color: #ff0000;
+                color: white;
+                border: none;
+                border-radius: 5px;
+                cursor: pointer;
+            }
+            button:hover {
+                background-color: #218838;
+            }
+        </style>    
+    </div>
+    
+    <div class="section" id="live-chat">
+        <h2>Live Chat</h2>
+        <p>Punya pertanyaan, saran, atau butuh bantuan? Jangan ragu untuk bergabung dalam live chat kami! Kami siap membantu Anda kapan saja.</p>   
+        <iframe src="https://www5.cbox.ws/box/?boxid=930162&boxtag=Vn0De1" width="100%" height="450" allowtransparency="yes" allow="autoplay" frameborder="0" marginheight="0" marginwidth="0" scrolling="auto"></iframe>	
+       <p> 💬 <i>Berinteraksi langsung dengan kami dan komunitas pengguna lainnya!</i></p>
+    </div>
+    
+    <!-- Other sections remain the same -->
+</div>
+
+<div id="messageModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeMessage()">&times;</span>
+        <p>Hallo sayang</p>
+    </div>
+</div>
+<!--
+<script>
+    function showMessage() {
+        var modal = document.getElementById('messageModal');
+        modal.style.display = "block";
+    }
+
+    function closeMessage() {
+        var modal = document.getElementById('messageModal');
+        modal.style.display = "none";
+    }
+
+    window.onclick = function(event) {
+        var modal = document.getElementById('messageModal');
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+</script> --->
+            
+        </div>
+    </div>
+    
+    <div class="footer">
+        &copy; 2024 AsmaraTools. All rights reserved.
+    </div>
+    
+    <script>
+        function toggleMenu() {
+            var menu = document.getElementById('menu');
+            menu.classList.toggle('visible');
+        }
+        
+        function toggleSubmenu(id) {
+            var submenu = document.getElementById(id + '-submenu');
+            submenu.style.display = submenu.style.display === 'block' ? 'none' : 'block';
+        }
+
+        function toggleTheme() {
+            document.body.classList.toggle('dark-theme');
+        }
+    </script>
+</body>
+</html>
